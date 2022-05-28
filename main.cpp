@@ -7,6 +7,12 @@
 
 using namespace std;
 
+#ifdef _WIN32
+#define GETCH _getch
+#else
+#define GETCH getch
+#endif
+
 GameMap gameMap = {
     "####################                                           ",
     "#                  #          #################                ",
@@ -55,7 +61,8 @@ int main() {
             drawEscapeMenu();
         }
 
-        int key = _getch();
+        int key = GETCH();
+
         switch (key) {
             case 97: 
                 if (isBlockCrate(pX - 1, pY, gameMap) && isBlockEmpty(pX - 2, pY, gameMap)) { pushCrate(pX - 1, pY, pX - 2, pY, gameMap); }
