@@ -39,7 +39,7 @@ void clearScreen() {
     else
         system("cls");
     #else
-        // Assume POSIX
+        // POSIX
         system("clear");
     #endif
 }
