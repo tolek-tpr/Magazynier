@@ -7,9 +7,9 @@
 
 using namespace std;
 
-#ifdef _WIN32
+#ifdef _WIN32 // WIN32
 #define GETCH _getch
-#else
+#else // POSIX
 #define GETCH getch
 #endif
 
@@ -34,13 +34,13 @@ GameMap gameMap = {
 
 void clearScreen() {
     #ifdef _WIN32
-    if (std::getenv("HOME"))   // git-bash & cygwin home var is called HOME
-        std::system("clear");  // cmd's home var is called HOMEPATH
+    if (getenv("HOME"))
+        system("clear");  
     else
-        std::system("cls");
+        system("cls");
     #else
         // Assume POSIX
-        std::system("clear");
+        system("clear");
     #endif
 }
 
