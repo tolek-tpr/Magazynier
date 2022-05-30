@@ -14,23 +14,44 @@ using namespace std;
 #define GETCH getch
 #endif
 
-GameMap gameMap = {
-    "####################                                           ",
-    "#                  #          #################                ",
-    "#                  #          #               #                ",
-    "#                  ############ ############# #         #####  ",
-    "####### ###                     #           # #         #+++#  ",
-    "#    O    #O       #########    #########   # #         #   #  ",
-    "#    #             #       #    #       #   # #         #   #  ",
-    "####################       #    #O      ##### ###########   #  ",
-    "                           #                                #  ",
-    "                           ###########  ################## ##  ",
-    "                                     #  #                # #   ",
-    "                                     #  ################## #   ",
-    "                                     #                     #   ",
-    "                                     #######################   ",
-    "                                                               ",
-    "                                                               ",
+const int MAX_LEVEL = 2;
+
+GameMap levels[MAX_LEVEL] = {
+    {
+        "###########",
+        "#   O    +#",
+        "###########",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    },
+    {
+        "####################                                           ",
+        "#                  #          #################                ",
+        "#                  #          #               #                ",
+        "#                  ############ ############# #         #####  ",
+        "####### ###                     #           # #         #+++#  ",
+        "#    O    #O       #########    #########   # #         #   #  ",
+        "#    #             #       #    #       #   # #         #   #  ",
+        "####################       #    #O      ##### ###########   #  ",
+        "                           #                                #  ",
+        "                           ###########  ################## ##  ",
+        "                                     #  #                # #   ",
+        "                                     #  ################## #   ",
+        "                                     #                     #   ",
+        "                                     #######################   ",
+        "                                                               ",
+        "                                                               ",
+    },
 };
 
 void clearScreen()
@@ -48,18 +69,22 @@ void clearScreen()
 
 int main()
 {
+    GameMap *gameMap;
     bool escapeMenuToggled = false;
     bool settingsMenuToggled;
     bool doExit = false;
     int pX = 1;
     int pY = 1;
+    int level = 0;
+
+    gameMap = &levels[level];
 
     while (!doExit)
     {
         if (!escapeMenuToggled)
         {
             clearScreen();
-            drawMap(pX, pY, gameMap);
+            drawMap(pX, pY, *gameMap);
         }
         else
         {
@@ -72,35 +97,35 @@ int main()
         switch (key)
         {
         case 97:
-            if (isBlockCrate(pX - 1, pY, gameMap) && isBlockEmpty(pX - 2, pY, gameMap))
+            if (isBlockCrate(pX - 1, pY, *gameMap) && isBlockEmpty(pX - 2, pY, *gameMap))
             {
-                pushCrate(pX - 1, pY, pX - 2, pY, gameMap);
+                pushCrate(pX - 1, pY, pX - 2, pY, *gameMap);
             }
-            if (isBlockEmpty(pX - 1, pY, gameMap))
+            if (isBlockEmpty(pX - 1, pY, *gameMap))
                 pX--;
             break;
         case 100:
-            if (isBlockCrate(pX + 1, pY, gameMap) && isBlockEmpty(pX + 2, pY, gameMap))
+            if (isBlockCrate(pX + 1, pY, *gameMap) && isBlockEmpty(pX + 2, pY, *gameMap))
             {
-                pushCrate(pX + 1, pY, pX + 2, pY, gameMap);
+                pushCrate(pX + 1, pY, pX + 2, pY, *gameMap);
             }
-            if (isBlockEmpty(pX + 1, pY, gameMap))
+            if (isBlockEmpty(pX + 1, pY, *gameMap))
                 pX++;
             break;
         case 119:
-            if (isBlockCrate(pX, pY - 1, gameMap) && isBlockEmpty(pX, pY - 2, gameMap))
+            if (isBlockCrate(pX, pY - 1, *gameMap) && isBlockEmpty(pX, pY - 2, *gameMap))
             {
-                pushCrate(pX, pY - 1, pX, pY - 2, gameMap);
+                pushCrate(pX, pY - 1, pX, pY - 2, *gameMap);
             }
-            if (isBlockEmpty(pX, pY - 1, gameMap))
+            if (isBlockEmpty(pX, pY - 1, *gameMap))
                 pY--;
             break;
         case 115:
-            if (isBlockCrate(pX, pY + 1, gameMap) && isBlockEmpty(pX, pY + 2, gameMap))
+            if (isBlockCrate(pX, pY + 1, *gameMap) && isBlockEmpty(pX, pY + 2, *gameMap))
             {
-                pushCrate(pX, pY + 1, pX, pY + 2, gameMap);
+                pushCrate(pX, pY + 1, pX, pY + 2, *gameMap);
             }
-            if (isBlockEmpty(pX, pY + 1, gameMap))
+            if (isBlockEmpty(pX, pY + 1, *gameMap))
                 pY++;
             break;
         case 27:
@@ -118,12 +143,19 @@ int main()
             }
             break;
         }
-        if (isComplete(gameMap))
+        if (isComplete(*gameMap))
         {
             clearScreen();
-            drawMap(pX, pY, gameMap);
-            cout << "Congratulations, you won!" << endl;
-            doExit = 1;
+            drawMap(pX, pY, *gameMap);
+            if (level == MAX_LEVEL - 1)
+            {
+                cout << "Congratulations, you won!" << endl;
+                doExit = 1;
+            }
+            else
+            {
+                gameMap = &levels[++level];
+            }
         }
     }
 
