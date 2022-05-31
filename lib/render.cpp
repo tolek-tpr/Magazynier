@@ -10,6 +10,23 @@ string escapeMenu[8] {
     "###################"
 };
 
+string mainMenu[5] {
+    "####################################",
+    "#                                  #",
+    "# 1            START             1 #",
+    "#                                  #",
+    "####################################",
+};
+
+void drawMainMenu() {
+    for (int y = 0; y < 5; y++) {
+        for (int x = 0; x < mainMenu[y].length(); x++) {
+            cout << mainMenu[y][x];
+        }
+        cout << endl;
+    }
+}
+
 void drawEscapeMenu() {
     for (int y = 0; y < 4; y++) {
         for (int x = 0; x < escapeMenu[y].length(); x++) {
