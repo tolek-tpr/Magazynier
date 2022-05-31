@@ -71,7 +71,8 @@ int main()
 {
     GameMap *gameMap;
     bool escapeMenuToggled = false;
-    bool settingsMenuToggled;
+    bool settingsMenuToggled = false;
+    bool mainMenuToggled = true;
     bool doExit = false;
     int pX = 1;
     int pY = 1;
@@ -81,15 +82,20 @@ int main()
 
     while (!doExit)
     {
-        if (!escapeMenuToggled)
+        if (!escapeMenuToggled && !mainMenuToggled)
         {
             clearScreen();
             drawMap(pX, pY, *gameMap);
         }
         else
         {
-            clearScreen();
-            drawEscapeMenu();
+            if (escapeMenuToggled) {
+                clearScreen();
+                drawEscapeMenu();
+            } else if (mainMenuToggled) {
+                clearScreen();
+                drawMainMenu();
+            }
         }
 
         int key = GETCH();
@@ -134,6 +140,8 @@ int main()
         case 49:
             if (escapeMenuToggled)
                 doExit = true;
+            if (mainMenuToggled)
+                mainMenuToggled = false;
             break;
         case 50:
             if (escapeMenuToggled)
@@ -141,6 +149,7 @@ int main()
                 settingsMenuToggled = !settingsMenuToggled;
                 cout << "settings";
             }
+            
             break;
         }
         if (isComplete(*gameMap))
