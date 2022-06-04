@@ -22,17 +22,12 @@ GameMap levels[MAX_LEVEL] = {
         "#   O    +#",
         "###########",
         "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
+        "   Use W,A,S,D to move.",
+        "   To push a crate, move the player ($) to",
+        "   the position of the crate",
+        "   To complete a level you need to move",
+        "   all of the crates (o) to their slots (+)",
+        "   If you get stuck then press the escape button"
     },
     {
         "####################                                           ",
@@ -156,6 +151,8 @@ int main()
         {
             clearScreen();
             drawMap(pX, pY, *gameMap);
+            pX = 1;
+            pY = 1;
             if (level == MAX_LEVEL - 1)
             {
                 cout << "Congratulations, you won!" << endl;
