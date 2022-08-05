@@ -1,8 +1,14 @@
-CCFLAGS:=-g -std=c++11
-CXX:=g++ $(CCFLAGS)
+CC = g++
+OUTDIR = bin/main
+MAIN = main.cpp
 
-all:
-	$(CC) -o main
+build:
+	mkdir -p bin/
+	$(CC) -o $(OUTDIR) $(MAIN)
+	./bin/main.exe
+
+run:
+	./bin/main.exe
 
 clean:
-    rm -f main main.exe
+	rm -rf bin/
